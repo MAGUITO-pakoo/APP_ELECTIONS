@@ -23,8 +23,8 @@ int menu();
 
 #define MAX_TEXT_LENGTH 50
 #define MAX_LINE_LENGTH 256
-#define CANDIDATS_FILE "src/candidats.csv"
-#define ELECTEURS_FILE "src/electeurs.csv"
+#define CANDIDATS_FILE "database/candidats.csv"
+#define ELECTEURS_FILE "database/electeurs.csv"
 #define DELIMITER ";" // Utilisation de la virgule comme séparateur
 #define MAX_CANDIDATS_LENGTH 20
 #define MAX_ELECTEURS_LENGTH 100
