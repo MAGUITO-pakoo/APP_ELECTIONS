@@ -65,7 +65,7 @@ void enregistrerElecteur() {
         return;
     }
 
-    fprintf(f, "%s;%s;%s;%d;%s;%d\n" , e.id, e.nom, e.quartier, e.age, e.nationalite, e.a_vote);
+    fprintf(f, "%d;%s;%s;%d;%s;%d\n" , e.id, e.nom, e.quartier, e.age, e.nationalite, e.a_vote);
 
     fclose(f);
 
