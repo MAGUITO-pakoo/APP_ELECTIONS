@@ -18,8 +18,7 @@ void annoncerCandidats() {
     while (fgets(ligne, sizeof(ligne), f)) {
         if (sscanf(ligne, "%d;%49[^;];%49[^;];%49[^;];%99[^;];%lf",
                    &c.id, c.nom, c.prenom, c.parti, c.photo, &c.caution) == 6) {
-            printf("\n[%d] %s %s (%s)\n", c.id, c.prenom, c.nom, c.parti);
-            printf("Caution : %.2f FCFA\n", c.caution);
+            printf("\n[%d] %s %s (%s)\n", c.prenom, c.nom, c.parti);
             printf("Photo : %s\n", c.photo);
 
            

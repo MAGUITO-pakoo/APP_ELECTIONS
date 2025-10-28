@@ -9,7 +9,7 @@
 #include <string.h>
 
 typedef struct {
-    char id[10];
+    int id;
     char nom[50];
     char quartier[50];
     int age;
@@ -17,9 +17,7 @@ typedef struct {
     int a_vote; // 0 = non, 1 = oui
 } Electeur;
 
-// Prototypes des fonctions liées aux électeurs
+void genererID(int *id);
 void enregistrerElecteur();
-
-static int elector_exists(sqlite3 *db, int id);
 
 #endif
