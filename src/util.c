@@ -1,5 +1,5 @@
 
-#include "..\include\util.h"
+#include "..\include\utils.h"
 
 void clearScreen () {
 #ifdef _WIN32
