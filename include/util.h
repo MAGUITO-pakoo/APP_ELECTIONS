@@ -29,6 +29,7 @@ int menu();
 #define MAX_CANDIDATS_LENGTH 20
 #define MAX_ELECTEURS_LENGTH 100
 
+// Structure Candidat
 typedef struct{
     int id;
     char nom[MAX_TEXT_LENGTH];
@@ -41,6 +42,7 @@ typedef struct{
     int candidatureValide; // 0 pour non et 1 pour oui
 }candidat;
 
+// structure electeur
 typedef struct{
     int id;
     char nom[MAX_TEXT_LENGTH];

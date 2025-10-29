@@ -1,5 +1,4 @@
-
-#include "..\include\utils.h"
+#include "..\include\util.h"
 
 void clearScreen () {
 #ifdef _WIN32
@@ -19,15 +18,14 @@ int menu(){
     // int run = 1;
     int choix;
 
-    clearScreen();
-    printf(GRAS CYAN "===APPLICATION ELECTION===\n" RESET);
+    printf(GRAS CYAN "=== APPLICATION ELECTION ===\n" RESET);
     printf(GRAS "\nBienvenue dans notre simulateur electoral\nVeiller faire votre choix\n\n");
     printf("1) Afficher les candidats\n");
     printf("2) Ajouter un Candidat\n");
-    printf("3) Liste d'electeur\n");
+    printf("3) Verifier les candidatures \n");
     printf("4) Ajouter un electeur\n");
-    printf("5) Lancer le vote\n");
-    printf("6) Verifier les candidatures\n");
+    printf("5) Liste d'electeurs \n");
+    printf("6) Lancer le vote\n");
     printf("99) Quitter\n" VERT">> " RESET);
     scanf("%d", &choix);
 
@@ -73,7 +71,7 @@ void loadCandidat()
             // Les champs ont été lus avec succès
             countCandidat++;
         }
-        // Sinon, la ligne est ignorée ou une erreur est loguée
+        else printf(ROUGE "Erreur lors du chargement de candidats\n" RESET);
     }
 
     fclose(file);
@@ -108,10 +106,9 @@ void loadElecteur()
                    &electeurs[countElecteur].age,
                    electeurs[countElecteur].regionDeResidence) == 5) 
         {
-            // Les 4 champs ont été lus avec succès
             countElecteur++;
         }
-        // Sinon, la ligne est ignorée ou une erreur est loguée
+       else printf(ROUGE "Erreur lors du chargement des electeurs\n" RESET);
     }
 
     fclose(file);
@@ -130,7 +127,12 @@ void checkCandidat()
             )
         {
             candidats[i].candidatureValide = 0;
-            printf(ROUGE "Candidature invalide pour: %s\n" RESET, candidats[i].nom);
+            printf(ROUGE "Candidature invalide pour: %s  " RESET, candidats[i].nom);
+            if(candidats[i].caution != 30000000) printf( JAUNE   " la Caution est differente de 30 000 000frs. " RESET);
+            if(strcmp(candidats[i].parti, "") == 0) printf( JAUNE   " parti invalide. " RESET);
+            if(candidats[i].casier == 1) printf( JAUNE   " ce candidats a deja eu des contencieux avec la justice " RESET);
+            if(candidats[i].age < 35) printf( JAUNE   " age minimum requis est 35 ans. " RESET);
+            printf("\n");
         }
         else{
             candidats[i].candidatureValide = 1;

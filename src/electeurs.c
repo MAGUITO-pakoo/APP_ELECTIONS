@@ -7,7 +7,7 @@
 
 // Fonction pour générer un ID automatique du type e001, e002...
 void genererID(int *id) { 
-    FILE *f = fopen("electeurs.csv", "r");
+    FILE *f = fopen("database/electeurs.csv", "r");
     int compteur = 0;
     char ligne[200];
 
@@ -24,8 +24,6 @@ void genererID(int *id) {
 // Fonction pour enregistrer un électeur
 void enregistrerElecteur() {
     Electeur e;
-
-    printf("\n==== ENREGISTREMENT D'UN ELECTEUR ====\n");
 
     genererID(&e.id);
     printf("Nom : ");
@@ -59,7 +57,7 @@ void enregistrerElecteur() {
 
     e.a_vote = 0;
 
-    FILE *f = fopen("electeurs.csv", "a");
+    FILE *f = fopen("database/electeurs.csv", "a");
     if (!f) {
         printf("Erreur lors de l’ouverture du fichier electeurs.csv\n");
         return;
@@ -73,8 +71,8 @@ void enregistrerElecteur() {
 }
 
 
-int main(){
-enregistrerElecteur();
+// int main(){
+// enregistrerElecteur();
 
- return 0;
-}
+//  return 0;
+// }
