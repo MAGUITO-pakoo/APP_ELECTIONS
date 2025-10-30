@@ -1,0 +1,122 @@
+#include <stdio.h>
+#include <string.h>
+
+typedef struct {
+    char nom[50];
+    int id;
+    int choix;        // 0 = n’a pas voté, >0 = a voté pour un candidat
+    char quartier[50];
+    int age;
+} Electeur;
+
+typedef struct {
+    Electeur aVoter[100];
+    int i;// indice du tableau
+    Electeur naPasVote[100];
+    int j;// indice du tableau
+} Votant;
+
+typedef struct {
+    int jour;
+    int mois;
+    int annee;
+}Date;
+
+typedef struct {
+    char nom[50];
+    int id;       // 0 = n’a pas voté, >0 = a voté pour un candidat
+    char parti[50];
+    Date dateNaissance;
+} Candidat;
+
+typedef struct {
+    int nbVote[100];
+    int i; // indice du tableau
+    Candidat candidat[100];
+    int j;// indice du tableau
+}ResultatVote;
+
+
+ResultatVote compteVote(Electeur tabE[], int tailleE, Candidat tabC[], int tailleC);
+Votant ontVote(Electeur tab[], int taille);
+int aVote(Electeur tab[], int taille, char nom[]);
+
+int main() {
+     Electeur electeurs[] = {
+        {"Dane", 1, 2, "Nkolbisson", 19},
+        {"Meli", 2, 0, "Biyem-Assi", 21},
+        {"Levi", 3, 1, "Essos", 25},
+        {"Walter", 4, 1, "Mokolo", 22},
+        {"Krys", 5, 2, "Ngousso", 20}
+    };
+
+    Candidat candidats[] = {
+        {"Emile", 1, "Parti du Soleil", {12, 4, 1975}},
+        {"Sarah", 2, "Parti du Lion", {5, 9, 1980}},
+        {"Jonas", 3, "Parti du Progrès", {22, 11, 1978}}
+    };
+
+    int tailleE = sizeof(electeurs) / sizeof(electeurs[0]);
+    int tailleC = sizeof(candidats) / sizeof(candidats[0]);
+
+    // ✅ Test du décompte des votes
+    ResultatVote resultat = compteVote(electeurs, tailleE, candidats, tailleC);
+
+    printf("=== Résultats du vote ===\n");
+    for (int i = 0; i < resultat.i; i++) {
+        printf("%s (%s) : %d votes\n",
+               resultat.candidat[i].nom,
+               resultat.candidat[i].parti,
+               resultat.nbVote[i]);
+    }
+
+    // ✅ Test de la fonction aVote()
+    printf("\nTest de aVote() :\n");
+    printf("Dane -> %d\n", aVote(electeurs, tailleE, "Dane"));
+    printf("Meli -> %d\n", aVote(electeurs, tailleE, "Meli"));
+    printf("Xavier -> %d\n", aVote(electeurs, tailleE, "Xavier"));
+
+    return 0;
+}
+
+Votant ontVote(Electeur tab[], int taille) {
+    Votant resultat = { .i = 0, .j = 0 };
+
+    for (int i = 0; i < taille; i++) {
+        if (tab[i].choix != 0)
+            resultat.aVoter[resultat.i++] = tab[i];
+        else
+            resultat.naPasVote[resultat.j++] = tab[i];
+    }
+
+    return resultat;
+}
+
+int aVote(Electeur tab[], int taille, char nom[]){
+    for(int i = 0; i< taille; i++){
+        if(strcmp(nom, tab[i].nom)== 0){
+            if(tab[i].choix != 0){
+                return 1;
+            }
+            return 0;
+        }
+       
+    }
+    return -1;
+}
+
+ResultatVote compteVote(Electeur tabE[], int tailleE, Candidat tabC[], int tailleC){
+    ResultatVote resultat = {.i=0, .j= 0 };
+    int compte= 0;
+    for(int i = 0; i< tailleC; i++){
+        compte= 0;
+        for(int j= 0; j<tailleE; j++){
+            if(tabE[j].choix== tabC[i].id ){
+                compte++;
+            }
+        }
+        resultat.nbVote[resultat.i++]= compte;
+        resultat.candidat[resultat.j++]= tabC[i];
+    }
+    return resultat;
+}
