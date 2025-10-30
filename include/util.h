@@ -20,6 +20,10 @@ void loadCandidat();
 void loadElecteur();
 void checkCandidat();
 int menu();
+// Affiche la liste des partis triés par nombre de votes (ordre croissant)
+// votes: tableau de nombres de votes par candidat (indice correspond au candidat dans la table `candidats`)
+// n: nombre d'éléments dans le tableau votes (si n<=0, la fonction utilise countCandidat chargé par loadCandidat)
+void afficherPartisParVotesCroissant(int votes[], int n);
 
 #define MAX_TEXT_LENGTH 50
 #define MAX_LINE_LENGTH 256
