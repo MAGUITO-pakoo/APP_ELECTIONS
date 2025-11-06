@@ -70,6 +70,32 @@ void enregistrerElecteur() {
     printf("Electeur enregistre avec succes !\n");
 }
 
+Votant ontVote(Electeur tab[], int taille) {
+    Votant resultat = { .i = 0, .j = 0 };
+
+    for (int i = 0; i < taille; i++) {
+        if (tab[i].choix != 0)
+            resultat.aVoter[resultat.i++] = tab[i];
+        else
+            resultat.naPasVote[resultat.j++] = tab[i];
+    }
+
+    return resultat;
+}
+
+int aVote(Electeur tab[], int taille, char nom[], char prenom[]){
+    for(int i = 0; i< taille; i++){
+        if(strcmp(nom, tab[i].nom)== 0 && strcmp(prenom, tab[i].prenom)== 0){
+            if(tab[i].choix != 0){
+                return 1;
+            }
+            return 0;
+        }
+       
+    }
+    return -1;
+}
+
 
 // int main(){
 // enregistrerElecteur();
