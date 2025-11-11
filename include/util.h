@@ -20,6 +20,8 @@ void loadCandidat();
 void loadElecteur();
 void checkCandidat();
 int menu();
+
+
 // Affiche la liste des partis triés par nombre de votes (ordre croissant)
 // votes: tableau de nombres de votes par candidat (indice correspond au candidat dans la table `candidats`)
 // n: nombre d'éléments dans le tableau votes (si n<=0, la fonction utilise countCandidat chargé par loadCandidat)
@@ -41,7 +43,7 @@ typedef struct{
     char parti[MAX_TEXT_LENGTH];
     int age;
     int caution;
-    int casier; // 0 pour non et 1 pour oui
+    int casier; // 0 pour non et 1 pour ouis
     char nationalite[MAX_TEXT_LENGTH];
     int candidatureValide; // 0 pour non et 1 pour oui
 }candidat;
@@ -51,9 +53,35 @@ typedef struct{
     int id;
     char nom[MAX_TEXT_LENGTH];
     char prenom[MAX_TEXT_LENGTH];
-    int age;
     char regionDeResidence[MAX_TEXT_LENGTH];
+    int age;
+    char nationalite[MAX_TEXT_LENGTH];
+    int choix;
 }electeur;
+
+typedef struct {
+    int nbVote[100];
+    int i; // indice du tableau
+    candidat candidat[100];
+    int j;// indice du tableau
+    float pourcent[100];
+    int k;
+}ResultatVote;
+
+typedef struct {
+    electeur aVoter[100];
+    int i;// indice du tableau
+    electeur naPasVote[100];
+    int j;// indice du tableau
+} Votant;
+
+ResultatVote compteVote(electeur tabE[], int tailleE, candidat tabC[], int tailleC);
+Votant ontVote(electeur tab[], int taille);
+int aVote(electeur tab[], int taille, char nom[], char prenom[]);
+
+extern electeur electeurs[100];
+extern int countElecteur;
+
 
 
 

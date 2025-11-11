@@ -26,6 +26,8 @@ int menu(){
     printf("4) Ajouter un electeur\n");
     printf("5) Liste d'electeurs \n");
     printf("6) Lancer le vote\n");
+    printf("7) Verifier si un electeur a voté\n");
+    printf("8) Afficher les resultats des elections\n");
     printf("99) Quitter\n" VERT">> " RESET);
     scanf("%d", &choix);
 
@@ -99,12 +101,14 @@ void loadElecteur()
     countElecteur = 0;
     while (fgets(line, MAX_LINE_LENGTH, file) != NULL && countElecteur < MAX_ELECTEURS_LENGTH) {
 
-        if (sscanf(line, "%d%*c%[^;]%*c%[^;]%*c%d%*c%[^;]", 
+        if (sscanf(line, "%d%*c%[^;]%*c%[^;]%*c%[^;]%*c%d%*c%[^;]%dpo", 
                    &electeurs[countElecteur].id,
                    electeurs[countElecteur].nom,
                    electeurs[countElecteur].prenom,
+                   electeurs[countElecteur].regionDeResidence,
                    &electeurs[countElecteur].age,
-                   electeurs[countElecteur].regionDeResidence) == 5) 
+                   electeurs[countElecteur].nationalite,
+                   &electeurs[countElecteur].choix) == 6) 
         {
             countElecteur++;
         }
@@ -217,3 +221,47 @@ void afficherPartisParVotesCroissant(int votes[], int n)
         printf(VERT "%2d) " RESET "%s : " GRAS "%d" RESET " votes\n", i + 1, parties[i].parti, parties[i].votes);
     }
 }
+
+ResultatVote compteVote(electeur tabE[], int tailleE, candidat tabC[], int tailleC){
+    ResultatVote resultat = {.i=0, .j= 0, .k= 0};
+    int compte= 0;
+    for(int i = 0; i< tailleC; i++){
+        compte= 0;
+        for(int j= 0; j<tailleE; j++){
+            if(tabE[j].choix== tabC[i].id ){
+                compte++;
+            }
+        }
+        resultat.nbVote[resultat.i++]= compte;
+        resultat.candidat[resultat.j++]= tabC[i];
+        resultat.pourcent[resultat.k++]= (float)compte/tailleE*100;
+    }
+    return resultat;
+}
+
+Votant ontVote(electeur tab[], int taille) {
+    Votant resultat = { .i = 0, .j = 0 };
+
+    for (int i = 0; i < taille; i++) {
+        if (tab[i].choix != 0)
+            resultat.aVoter[resultat.i++] = tab[i];
+        else
+            resultat.naPasVote[resultat.j++] = tab[i];
+    }
+
+    return resultat;
+}
+
+int aVote(electeur tab[], int taille, char nom[], char prenom[]){
+    for(int i = 0; i< taille; i++){
+        if(strcmp(nom, tab[i].nom)== 0 && strcmp(prenom, tab[i].prenom)){
+            if(tab[i].choix != 0){
+                return 1;
+            }
+            return 0;
+        }
+       
+    }
+    return -1;
+}
+

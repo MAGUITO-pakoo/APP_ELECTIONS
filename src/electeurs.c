@@ -30,9 +30,13 @@ void enregistrerElecteur() {
     fgets(e.nom, sizeof(e.nom), stdin);
     e.nom[strcspn(e.nom, "\n")] = 0; 
 
-    printf("Quartier : ");
-    fgets(e.quartier, sizeof(e.quartier), stdin);
-    e.quartier[strcspn(e.quartier, "\n")] = 0;
+    printf("Prenom : ");
+    fgets(e.prenom, sizeof(e.prenom), stdin);
+    e.prenom[strcspn(e.prenom, "\n")] = 0; 
+
+    printf("Region De Residence : ");
+    fgets(e.regionDeResidence, sizeof(e.regionDeResidence), stdin);
+    e.regionDeResidence[strcspn(e.regionDeResidence, "\n")] = 0;
 
     printf("Age : ");
     scanf("%d", &e.age);
@@ -55,7 +59,7 @@ void enregistrerElecteur() {
         return;
     }
 
-    e.a_vote = 0;
+    e.choix = 0;
 
     FILE *f = fopen("database/electeurs.csv", "a");
     if (!f) {
@@ -63,38 +67,13 @@ void enregistrerElecteur() {
         return;
     }
 
-    fprintf(f, "%d;%s;%s;%d;%s;%d\n" , e.id, e.nom, e.quartier, e.age, e.nationalite, e.a_vote);
+    fprintf(f, "%d;%s;%s;%s;%d;%s;%d\n" , e.id, e.nom, e.prenom, e.regionDeResidence, e.age, e.nationalite, e.choix);
 
     fclose(f);
 
     printf("Electeur enregistre avec succes !\n");
 }
 
-Votant ontVote(Electeur tab[], int taille) {
-    Votant resultat = { .i = 0, .j = 0 };
-
-    for (int i = 0; i < taille; i++) {
-        if (tab[i].choix != 0)
-            resultat.aVoter[resultat.i++] = tab[i];
-        else
-            resultat.naPasVote[resultat.j++] = tab[i];
-    }
-
-    return resultat;
-}
-
-int aVote(Electeur tab[], int taille, char nom[], char prenom[]){
-    for(int i = 0; i< taille; i++){
-        if(strcmp(nom, tab[i].nom)== 0 && strcmp(prenom, tab[i].prenom)== 0){
-            if(tab[i].choix != 0){
-                return 1;
-            }
-            return 0;
-        }
-       
-    }
-    return -1;
-}
 
 
 // int main(){

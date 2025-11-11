@@ -1,4 +1,5 @@
 #include "../include/candidats.h"
+#include "../include/electeurs.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -28,19 +29,3 @@ void annoncerCandidats() {
     fclose(f);
 }
 
-ResultatVote compteVote(Electeur tabE[], int tailleE, Candidat tabC[], int tailleC){
-    ResultatVote resultat = {.i=0, .j= 0, .k= 0};
-    int compte= 0;
-    for(int i = 0; i< tailleC; i++){
-        compte= 0;
-        for(int j= 0; j<tailleE; j++){
-            if(tabE[j].choix== tabC[i].id ){
-                compte++;
-            }
-        }
-        resultat.nbVote[resultat.i++]= compte;
-        resultat.candidat[resultat.j++]= tabC[i];
-        resultat.pourcent[resultat.k++]= (float)compte/tailleE*100;
-    }
-    return resultat;
-}

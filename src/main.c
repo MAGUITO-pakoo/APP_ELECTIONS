@@ -38,6 +38,29 @@ int main(){
         loadCandidat();
         printf("Simulation de Vote\n");
         break;
+    case 7:
+        loadElecteur();
+        char checkNom[50];
+        char checkprenom[50];
+        printf("\nEntrez le nom de l'electeur à verifier \n");
+        scanf("%s", checkNom); 
+        printf("\nEntrez le prenom de l'electeur à verifier \n");
+        scanf("%s", checkprenom);
+        int checkVote = aVote(electeurs, countElecteur, checkNom, checkprenom);
+
+        switch (checkVote)
+        {
+        case 1:
+            printf("Cet electeur a bien voté");
+            break;
+        case 0:
+            printf("Cet electeur n'a pas voté");
+            break;
+        case -1:
+            printf("Cet nom n'a pas été trouvé");
+            break;
+        }
+        break;
     case 99:
         printf(CYAN GRAS"Fin du Programme\n" RESET);
         goto fin;
