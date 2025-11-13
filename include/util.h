@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 
 // Codes de couleur ANSI
 #define RESET   "\x1b[0m"
@@ -78,9 +79,13 @@ typedef struct {
 ResultatVote compteVote(electeur tabE[], int tailleE, candidat tabC[], int tailleC);
 Votant ontVote(electeur tab[], int taille);
 int aVote(electeur tab[], int taille, char nom[], char prenom[]);
+void simulerVote(electeur tab[], int taille, int nbCandidats);
+void passerAuVote(electeur tab[], int taille, int nbCandidats);
 
-extern electeur electeurs[100];
+extern electeur electeurs[MAX_ELECTEURS_LENGTH];
+extern candidat candidats[MAX_CANDIDATS_LENGTH];
 extern int countElecteur;
+extern int countCandidat;
 
 
 

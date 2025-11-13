@@ -222,22 +222,105 @@ void afficherPartisParVotesCroissant(int votes[], int n)
     }
 }
 
-ResultatVote compteVote(electeur tabE[], int tailleE, candidat tabC[], int tailleC){
-    ResultatVote resultat = {.i=0, .j= 0, .k= 0};
-    int compte= 0;
-    for(int i = 0; i< tailleC; i++){
-        compte= 0;
-        for(int j= 0; j<tailleE; j++){
-            if(tabE[j].choix== tabC[i].id ){
+
+void simulerVote(electeur tab[], int taille, int nbCandidats)
+{
+    // Initialiser le générateur aléatoire (une seule fois par exécution)
+    srand(time(NULL));
+
+    for (int i = 0; i < taille; i++)
+    {
+        // choix aléatoire entre 1 et nbCandidats inclus
+        if (tab[i].choix!=0 ){
+            continue;
+        }
+        int vote = rand() % nbCandidats + 1;
+        tab[i].choix = vote;
+    }
+
+    printf("\nSimulation du vote terminée : chaque électeur a voté aléatoirement.\n");
+}
+
+void passerAuVote(electeur tab[], int taille, int nbCandidats)
+{
+    printf("\n=== DÉROULEMENT DU VOTE ===\n");
+
+    for (int i = 0; i < taille; i++)
+    {
+        // Vérifie si l’électeur a déjà voté
+        if (tab[i].choix != 0)
+        {
+            printf("\n%s a déjà voté, passage au suivant.\n", tab[i].nom);
+            continue;
+        }
+
+        printf("\nÉlecteur %s %s, entrez le numéro du candidat pour lequel vous votez (1 à %d) : ",
+               tab[i].nom, tab[i].prenom, nbCandidats);
+
+        int vote;
+        do {
+            printf("\nVotre choix : ");
+            scanf("%d", &vote);
+
+            if (vote < 1 || vote > nbCandidats)
+                printf("Numéro invalide ! Veuillez entrer un nombre entre 1 et %d.\n", nbCandidats);
+
+        } while (vote < 1 || vote > nbCandidats);
+
+        // Affectation du vote
+        tab[i].choix = vote;
+        printf("%s a voté pour le candidat n°%d.\n", tab[i].nom, vote);
+    }
+
+    printf("\n✅ Tous les électeurs ont eu la possibilité de voter.\n");
+}
+
+// Variable globale pour incrémenter les fichiers
+static int compteurVote = 1;
+
+ResultatVote compteVote(electeur tabE[], int tailleE, candidat tabC[], int tailleC)
+{
+    ResultatVote resultat = { .i = 0, .j = 0, .k = 0 };
+    int compte = 0;
+
+    // Nom du fichier CSV
+    char filename[64];
+    sprintf(filename, "vote%d.csv", compteurVote++);
+
+    // Ouvrir le fichier en écriture
+    FILE *f = fopen(filename, "w");
+    if (f == NULL) {
+        perror("Erreur d'ouverture du fichier CSV");
+        return resultat;
+    }
+
+    // Entête du CSV (facultatif)
+    fprintf(f, "Candidat;Votes;Pourcentage\n");
+
+    for (int i = 0; i < tailleC; i++) {
+        compte = 0;
+        for (int j = 0; j < tailleE; j++) {
+            if (tabE[j].choix == tabC[i].id) {
                 compte++;
             }
         }
-        resultat.nbVote[resultat.i++]= compte;
-        resultat.candidat[resultat.j++]= tabC[i];
-        resultat.pourcent[resultat.k++]= (float)compte/tailleE*100;
+
+        float pourcentage = (float)compte / tailleE * 100.0f;
+
+        resultat.nbVote[resultat.i++] = compte;
+        resultat.candidat[resultat.j++] = tabC[i];
+        resultat.pourcent[resultat.k++] = pourcentage;
+
+        // Écriture dans le fichier CSV
+        fprintf(f, "%s (%s);%d;%.2f%%\n", tabC[i].nom, tabC[i].parti, compte, pourcentage);
     }
+
+    fclose(f);
+    printf("Résultats sauvegardés dans le fichier %s ✅\n", filename);
+
     return resultat;
 }
+
 
 Votant ontVote(electeur tab[], int taille) {
     Votant resultat = { .i = 0, .j = 0 };

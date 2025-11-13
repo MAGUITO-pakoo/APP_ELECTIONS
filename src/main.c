@@ -36,7 +36,8 @@ int main(){
         break;
     case 6:
         loadCandidat();
-        printf("Simulation de Vote\n");
+        loadElecteur();
+        simulerVote(electeurs, countElecteur, countCandidat);
         break;
     case 7:
         loadElecteur();
@@ -61,6 +62,20 @@ int main(){
             break;
         }
         break;
+    case 8:
+        loadCandidat();
+        loadElecteur();
+        ResultatVote resultat = compteVote(electeurs, countElecteur, candidats, countCandidat);
+
+        printf("=== Résultats du vote ===\n");
+        for (int i = 0; i < resultat.i; i++) {
+            printf("%s %s (%s) : %d votes (%f %%) \n",
+                resultat.candidat[i].prenom,
+                resultat.candidat[i].nom,
+                resultat.candidat[i].parti,
+                resultat.nbVote[i],
+                resultat.pourcent[i]);
+    }
     case 99:
         printf(CYAN GRAS"Fin du Programme\n" RESET);
         goto fin;
